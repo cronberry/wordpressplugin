@@ -151,3 +151,66 @@ function custome_add_to_cart($data1)
         array('%s','%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')
     );
 }
+
+
+add_action('wpcf7_before_send_mail', 'before_send_mail');
+
+function before_send_mail($contact_form)
+{
+    global $wpdb;
+    $tablename = $wpdb->prefix . 'cronberry_integration';
+    $email = null;
+    $mobile = null;
+    $name = $contact_form->title;
+    $submission = WPCF7_Submission::get_instance();
+    if ($submission) {
+        $posted_data = $submission->get_posted_data();
+        if (array_key_exists('your-name', $posted_data)) {
+            $name = $posted_data['your-name'];
+        } elseif (array_key_exists('name', $posted_data)) {
+            $name = $posted_data['name'];
+        }
+
+        if (array_key_exists('your-email', $posted_data)) {
+            $email = $posted_data['your-email'];
+        } elseif (array_key_exists('email', $posted_data)) {
+            $email = $posted_data['your-email'];
+        } elseif (array_key_exists('mail', $posted_data)) {
+            $email = $posted_data['mail'];
+        }
+        if (array_key_exists('ContactNumber', $posted_data)) {
+            $mobile = $posted_data['ContactNumber'];
+        } elseif (array_key_exists('number', $posted_data)) {
+            $mobile = $posted_data['number'];
+        } elseif (array_key_exists('phone', $posted_data)) {
+            $mobile = $posted_data['phone'];
+        } elseif (array_key_exists('mobile', $posted_data)) {
+            $mobile = $posted_data['mobile'];
+        }
+    }
+
+    if (!is_null($email) || !is_null($mobile)) {
+        $web_fcm_token = $_COOKIE['sentToServer'];
+        $wpdb->insert(
+            $tablename,
+            array(
+                'session_id' => get_current_user_id(),
+                'cart_id' => null,
+                'name' => $name,
+                'email' => $email,
+                'mobile' => $mobile,
+                'cart_add_date' => '',
+                'productnames' => null,
+                'productquantity' => 0,
+                'orderid' => null,
+                'order_date' => null,
+                'orderstatus' => null,
+                'city' => null,
+                'postcode' => null,
+                'web_fcm_token' => $web_fcm_token,
+                'add_date' => date('Y-m-d H:i:s', strtotime('now')),
+            ),
+            array('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')
+        );
+    }
+}
