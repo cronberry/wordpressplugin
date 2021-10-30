@@ -162,13 +162,14 @@ function before_send_mail($contact_form)
     $email = null;
     $mobile = null;
     $name = $contact_form->title;
+    $otherData = "";
     $submission = WPCF7_Submission::get_instance();
     if ($submission) {
         $posted_data = $submission->get_posted_data();
         if (array_key_exists('your-name', $posted_data)) {
             $name = $posted_data['your-name'];
         } elseif (array_key_exists('name', $posted_data)) {
-            $name = $posted_data['name'];
+        //    $name = $posted_data['name'];
         }
 
         if (array_key_exists('your-email', $posted_data)) {
@@ -187,6 +188,12 @@ function before_send_mail($contact_form)
         } elseif (array_key_exists('mobile', $posted_data)) {
             $mobile = $posted_data['mobile'];
         }
+        $otherKey = array();
+        foreach($posted_data as $key => $value){
+        if(!empty($value)){
+            array_push($otherKey,["paramKey"=>str_replace("-","",str_replace(" ","_",$key)),"paramValue"=>$value]);
+        }}
+        $otherData =  json_encode($otherKey);
     }
 
     if (!is_null($email) || !is_null($mobile)) {
@@ -208,6 +215,7 @@ function before_send_mail($contact_form)
                 'city' => null,
                 'postcode' => null,
                 'web_fcm_token' => $web_fcm_token,
+                'otherData' => $otherData,
                 'add_date' => date('Y-m-d H:i:s', strtotime('now')),
             ),
             array('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')

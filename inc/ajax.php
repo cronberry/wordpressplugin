@@ -188,7 +188,11 @@ function get_form_details($project_key, $data)
             "paramValue" => $data['postcode']
         ]
     );
-    $userObject['paramList'] = array_merge($cartArray, $orderArray);
+    $otherDataArray = array();
+    if(!empty($data['otherData'])){
+        $otherDataArray = json_decode($data['otherData']);
+    }
+    $userObject['paramList'] = array_merge($cartArray, $orderArray,$otherDataArray);
     return $userObject;
 }
 

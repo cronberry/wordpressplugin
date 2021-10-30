@@ -45,6 +45,7 @@ function create_cronberry_table()
         `web_fcm_token` text DEFAULT NULL,
         `status` int(1) DEFAULT 0,
         `message` varchar(255) DEFAULT NULL,
+        `otherData` varchar(3000) DEFAULT NULL,
         `add_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
         `update_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
         PRIMARY KEY(id)
