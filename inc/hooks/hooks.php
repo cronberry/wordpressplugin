@@ -163,6 +163,7 @@ function before_send_mail($contact_form)
     $mobile = null;
     $name = $contact_form->title;
     $otherData = "";
+
     $submission = WPCF7_Submission::get_instance();
     if ($submission) {
         $posted_data = $submission->get_posted_data();
