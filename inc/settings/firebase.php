@@ -1,6 +1,6 @@
 <?php
 
-if (!empty($_POST) && $_POST['option_page'] == 'cronberry-firebase-settings') {
+if (!empty($_POST) && isset($_POST['option_page']) && $_POST['option_page'] == 'cronberry-firebase-settings') {
 
     update_option('cronberry_push_notification_concent', $_POST['cronberry_push_notification_concent']);
     update_option('firebase_api_key', $_POST['firebase_api_key']);
