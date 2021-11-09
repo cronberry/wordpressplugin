@@ -1,6 +1,6 @@
 <?php
 
-if (!empty($_POST) && $_POST['option_page'] == 'cronberry-settings') {
+if (!empty($_POST) && isset($_POST['option_page']) && $_POST['option_page'] == 'cronberry-settings') {
 
     update_option('cronberry_project_Key', $_POST['cronberry_project_Key']);
     update_option('cronberry_announcement_url', $_POST['cronberry_announcement_url']);
