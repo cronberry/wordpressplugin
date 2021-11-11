@@ -115,6 +115,8 @@ function getInapp($key, $audienceId)
 
 function get_form_details($project_key, $data)
 {
+    
+    $order_concent = get_option('cronberry_order_concent');
     $paramData['paramList'] = array();
 
     $userObject =    [
@@ -128,7 +130,7 @@ function get_form_details($project_key, $data)
 
     $cartArray = array();
     $orderArray = array();
-
+   if($order_concent > 0){
     $cartArray = array(
         [
             "paramKey" => "cart_add_date",
@@ -188,6 +190,7 @@ function get_form_details($project_key, $data)
             "paramValue" => $data['postcode']
         ]
     );
+   }
     $otherDataArray = array();
     if(!empty($data['otherData'])){
         $otherDataArray = json_decode($data['otherData']);
