@@ -170,13 +170,13 @@ function before_send_mail($contact_form)
         if (array_key_exists('your-name', $posted_data)) {
             $name = $posted_data['your-name'];
         } elseif (array_key_exists('name', $posted_data)) {
-        //    $name = $posted_data['name'];
+            $name = $posted_data['name'];
         }
 
         if (array_key_exists('your-email', $posted_data)) {
             $email = $posted_data['your-email'];
         } elseif (array_key_exists('email', $posted_data)) {
-            $email = $posted_data['your-email'];
+            $email = $posted_data['email'];
         } elseif (array_key_exists('mail', $posted_data)) {
             $email = $posted_data['mail'];
         }
