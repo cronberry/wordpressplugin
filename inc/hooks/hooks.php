@@ -192,7 +192,7 @@ function before_send_mail($contact_form)
         $otherKey = array();
         foreach($posted_data as $key => $value){
         if(!empty($value)){
-            array_push($otherKey,["paramKey"=>str_replace("-","",str_replace(" ","_",$key)),"paramValue"=>$value]);
+            array_push($otherKey,["paramKey"=>strtolower(str_replace("-","",str_replace(" ","_",$key))),"paramValue"=>$value]);
         }}
         $otherData =  json_encode($otherKey);
     }
